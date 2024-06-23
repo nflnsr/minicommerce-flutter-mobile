@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:minicommerce/core.dart';
 import 'package:minicommerce/service/product_service/product_service.dart';
+import 'package:minicommerce/shared/utils/show_loading.dart';
 import '../view/product_list_view.dart';
 
 class ProductListController extends State<ProductListView> {
@@ -26,8 +27,20 @@ class ProductListController extends State<ProductListView> {
   Widget build(BuildContext context) => widget.build(context, this);
 
   List products = [];
+  bool isLoading = true;
   getProducts() async {
+    isLoading = true;
+    setState(() {});
     products = await ProductService().get();
+    isLoading = false;
     setState(() {});
   }
+
+  deleteProduct(String id) async {
+    showLoading();
+    await ProductService().delete(id);
+    hideLoading();
+    getProducts();
+  }
+
 }

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:minicommerce/core.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -108,28 +107,50 @@ class _ProductListView extends StatelessWidget {
                             thickness: 1,
                           ),
                           const SizedBox(height: 8),
-                          GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: controller.products.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 8.0,
-                              mainAxisSpacing: 8.0,
-                              childAspectRatio: 1 / 2,
-                            ),
-                            itemBuilder: (BuildContext context, int index) {
-                              var item = controller.products[index];
-                              return productCard(
-                                imgProduct: item['img_product'],
-                                name: item['product_name'],
-                                price: item['price'],
-                                location: 'Jakarta',
-                                stock: item['stock'],
-                              );
-                            },
-                          ),
+                          controller.isLoading
+                              ? Container(
+                                  padding: const EdgeInsets.all(80),
+                                  child: const Center(
+                                    child: SizedBox(
+                                      width:
+                                          80, // Lebar CircularProgressIndicator
+                                      height:
+                                          80, // Tinggi CircularProgressIndicator
+                                      child: CircularProgressIndicator(
+                                        strokeWidth:
+                                            5, // Lebar garis CircularProgressIndicator
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: controller.products.length,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 8.0,
+                                    mainAxisSpacing: 8.0,
+                                    childAspectRatio: 1 / 2,
+                                  ),
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    var item = controller.products[index];
+                                    return productCard(
+                                      context: context,
+                                      id: item['id'].toString(),
+                                      imgProduct: item['img_product'] ?? '',
+                                      name: item['product_name'] ??
+                                          'Unknown Product Name',
+                                      price: item['price'] ?? 'Rp.0',
+                                      location: item['location'] ??
+                                          'Unknown Location',
+                                      stock: item['stock'] ?? 0,
+                                      sold: item['sold'] ?? 0,
+                                    );
+                                  },
+                                ),
                         ],
                       )),
                   const SizedBox(height: 16),
@@ -183,6 +204,17 @@ class _ProductListView extends StatelessWidget {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await Get.to(const AddProductView());
+          controller.getProducts();
+        },
+        backgroundColor: const Color.fromARGB(255, 248, 139, 14),
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
     );
   }
@@ -269,140 +301,143 @@ class _ProductListView extends StatelessWidget {
     );
   }
 
-  Widget carouselSlider() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: productCard(
-                imgProduct: 'assets/images/foto_produk3.jpeg',
-                name: 'Lightning Lamp',
-                price: 'Rp.100.000',
-                location: 'Jakarta',
-              ),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: productCard(
-                imgProduct:
-                    'assets/images/8f32a1f1-0467-419e-82d7-7bafce45d2e0.jpeg',
-                name: 'Classic Lamp',
-                price: 'Rp.120.000',
-                location: 'Bekasi',
-              ),
-            ),
-            const SizedBox(width: 8),
-          ],
-        ),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            Expanded(
-              child: productCard(
-                imgProduct: 'assets/images/foto_produk2.jpg',
-                name: 'Classic Lamp',
-                price: 'Rp.120.000',
-                location: 'Tangerang',
-              ),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: productCard(
-                imgProduct:
-                    'assets/images/c6e4bdfb-a1a1-4f19-a0eb-9df73b05e2f0.jpeg',
-                name: 'Lightning Lamp',
-                price: 'Rp.100.000',
-                location: 'Jakarta Selatan',
-              ),
-            ),
-            const SizedBox(width: 8),
-          ],
-        ),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            Expanded(
-              child: productCard(
-                imgProduct: 'assets/images/foto_produk3.jpeg',
-                name: 'Lightning Lamp',
-                price: 'Rp.100.000',
-                location: 'Jakarta',
-              ),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: productCard(
-                imgProduct:
-                    'assets/images/8f32a1f1-0467-419e-82d7-7bafce45d2e0.jpeg',
-                name: 'Classic Lamp',
-                price: 'Rp.120.000',
-                location: 'Bekasi',
-              ),
-            ),
-            const SizedBox(width: 8),
-          ],
-        ),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            Expanded(
-              child: productCard(
-                imgProduct: 'assets/images/foto_produk2.jpg',
-                name: 'Classic Lamp',
-                price: 'Rp.120.000',
-                location: 'Tangerang',
-              ),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: productCard(
-                imgProduct:
-                    'assets/images/c6e4bdfb-a1a1-4f19-a0eb-9df73b05e2f0.jpeg',
-                name: 'Lightning Lamp',
-                price: 'Rp.100.000',
-                location: 'Jakarta Selatan',
-              ),
-            ),
-            const SizedBox(width: 8),
-          ],
-        ),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            Expanded(
-              child: productCard(
-                imgProduct: 'assets/images/foto_produk3.jpeg',
-                name:
-                    'Lightning Lamp Lightning Lamp Lightning Lamp Lightning Lamp',
-                price: 'Rp.100.000',
-                location: 'Jakarta',
-              ),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: productCard(
-                imgProduct:
-                    'assets/images/8f32a1f1-0467-419e-82d7-7bafce45d2e0.jpeg',
-                name: 'Classic Lamp',
-                price: 'Rp.120.000',
-                location: 'Bekasi',
-              ),
-            ),
-            const SizedBox(width: 8),
-          ],
-        ),
-      ],
-    );
-  }
+  // Widget carouselSlider() {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.stretch,
+  //     children: [
+  //       Row(
+  //         children: [
+  //           Expanded(
+  //             child: productCard(
+  //               imgProduct: 'assets/images/foto_produk3.jpeg',
+  //               name: 'Lightning Lamp',
+  //               price: 'Rp.100.000',
+  //               location: 'Jakarta',
+  //             ),
+  //           ),
+  //           const SizedBox(width: 8),
+  //           Expanded(
+  //             child: productCard(
+  //               imgProduct:
+  //                   'assets/images/8f32a1f1-0467-419e-82d7-7bafce45d2e0.jpeg',
+  //               name: 'Classic Lamp',
+  //               price: 'Rp.120.000',
+  //               location: 'Bekasi',
+  //             ),
+  //           ),
+  //           const SizedBox(width: 8),
+  //         ],
+  //       ),
+  //       const SizedBox(height: 8),
+  //       Row(
+  //         children: [
+  //           Expanded(
+  //             child: productCard(
+  //               imgProduct: 'assets/images/foto_produk2.jpg',
+  //               name: 'Classic Lamp',
+  //               price: 'Rp.120.000',
+  //               location: 'Tangerang',
+  //             ),
+  //           ),
+  //           const SizedBox(width: 8),
+  //           Expanded(
+  //             child: productCard(
+  //               imgProduct:
+  //                   'assets/images/c6e4bdfb-a1a1-4f19-a0eb-9df73b05e2f0.jpeg',
+  //               name: 'Lightning Lamp',
+  //               price: 'Rp.100.000',
+  //               location: 'Jakarta Selatan',
+  //             ),
+  //           ),
+  //           const SizedBox(width: 8),
+  //         ],
+  //       ),
+  //       const SizedBox(height: 8),
+  //       Row(
+  //         children: [
+  //           Expanded(
+  //             child: productCard(
+  //               imgProduct: 'assets/images/foto_produk3.jpeg',
+  //               name: 'Lightning Lamp',
+  //               price: 'Rp.100.000',
+  //               location: 'Jakarta',
+  //             ),
+  //           ),
+  //           const SizedBox(width: 8),
+  //           Expanded(
+  //             child: productCard(
+  //               imgProduct:
+  //                   'assets/images/8f32a1f1-0467-419e-82d7-7bafce45d2e0.jpeg',
+  //               name: 'Classic Lamp',
+  //               price: 'Rp.120.000',
+  //               location: 'Bekasi',
+  //             ),
+  //           ),
+  //           const SizedBox(width: 8),
+  //         ],
+  //       ),
+  //       const SizedBox(height: 8),
+  //       Row(
+  //         children: [
+  //           Expanded(
+  //             child: productCard(
+  //               imgProduct: 'assets/images/foto_produk2.jpg',
+  //               name: 'Classic Lamp',
+  //               price: 'Rp.120.000',
+  //               location: 'Tangerang',
+  //             ),
+  //           ),
+  //           const SizedBox(width: 8),
+  //           Expanded(
+  //             child: productCard(
+  //               imgProduct:
+  //                   'assets/images/c6e4bdfb-a1a1-4f19-a0eb-9df73b05e2f0.jpeg',
+  //               name: 'Lightning Lamp',
+  //               price: 'Rp.100.000',
+  //               location: 'Jakarta Selatan',
+  //             ),
+  //           ),
+  //           const SizedBox(width: 8),
+  //         ],
+  //       ),
+  //       const SizedBox(height: 8),
+  //       Row(
+  //         children: [
+  //           Expanded(
+  //             child: productCard(
+  //               imgProduct: 'assets/images/foto_produk3.jpeg',
+  //               name:
+  //                   'Lightning Lamp Lightning Lamp Lightning Lamp Lightning Lamp',
+  //               price: 'Rp.100.000',
+  //               location: 'Jakarta',
+  //             ),
+  //           ),
+  //           const SizedBox(width: 8),
+  //           Expanded(
+  //             child: productCard(
+  //               imgProduct:
+  //                   'assets/images/8f32a1f1-0467-419e-82d7-7bafce45d2e0.jpeg',
+  //               name: 'Classic Lamp',
+  //               price: 'Rp.120.000',
+  //               location: 'Bekasi',
+  //             ),
+  //           ),
+  //           const SizedBox(width: 8),
+  //         ],
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget productCard({
+    required BuildContext context,
+    required String id,
     required String imgProduct,
     required String name,
     required String price,
     required String location,
-    int stock = 0,
+    required int sold,
+    required int stock,
   }) {
     return Container(
       width: 160,
@@ -425,7 +460,7 @@ class _ProductListView extends StatelessWidget {
       ),
       child: GestureDetector(
         onTap: () {
-          Get.to(const ProductDetailView());
+          Get.to(const AddProductView());
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -462,12 +497,12 @@ class _ProductListView extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 4),
-                const Expanded(
+                Expanded(
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      'Terjual 100',
-                      style: TextStyle(fontSize: 10),
+                      'Terjual $sold',
+                      style: const TextStyle(fontSize: 10),
                     ),
                   ),
                 ),
@@ -549,8 +584,50 @@ class _ProductListView extends StatelessWidget {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    print('Add to Cart clicked for $name');
+                  onPressed: () async {
+                    bool confirm = false;
+                    await showDialog<void>(
+                      context: context,
+                      barrierDismissible: true,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Confirm'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: const <Widget>[
+                                Text(
+                                    'Are you sure you want to delete this item?'),
+                              ],
+                            ),
+                          ),
+                          actions: <Widget>[
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.grey[600],
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text("No"),
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blueGrey,
+                              ),
+                              onPressed: () {
+                                confirm = true;
+                                Navigator.pop(context);
+                              },
+                              child: const Text("Yes"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    if (confirm) {
+                      controller.deleteProduct(id);
+                    }
+                    return Future.value(false);
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(

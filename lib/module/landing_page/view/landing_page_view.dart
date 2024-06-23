@@ -530,7 +530,6 @@ class _LandingPageState extends State<LandingPage> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  // print('Buy Now clicked for $name');
                   Get.to(const ProductListView());
                 },
                 style: ElevatedButton.styleFrom(

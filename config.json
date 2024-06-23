@@ -2,7 +2,8 @@
     "modules": [
         "landing_page",
         "product_list",
-        "product_detail"
+        "product_detail",
+        "add_product"
     ],
     "module_directory_name": "module",
     "experimental_mode": false,
