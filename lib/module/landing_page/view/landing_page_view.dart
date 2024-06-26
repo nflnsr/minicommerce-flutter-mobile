@@ -541,7 +541,7 @@ class _LandingPageState extends State<LandingPage> {
                   ),
                 ),
                 child: const Text(
-                  'Buy Now',
+                  'Edit',
                   style: TextStyle(fontSize: 12, color: Colors.white),
                 ),
               ),

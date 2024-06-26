@@ -30,19 +30,25 @@ class _ProductListView extends StatelessWidget {
             bottom: Radius.circular(30),
           ),
         ),
-        title: const Row(
+        title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(
+            const Icon(
               Icons.person_rounded,
               size: 35,
               color: Color.fromARGB(255, 255, 255, 255),
             ),
-            Icon(
-              Icons.shopping_cart,
-              size: 30,
-              color: Color.fromARGB(255, 255, 255, 255),
-            )
+            GestureDetector(
+              onTap: () async {
+                await Get.to(const AddProductView());
+                controller.getProducts();
+              },
+              child: const Icon(
+                Icons.add,
+                size: 30,
+                color: Color.fromARGB(255, 255, 255, 255),
+              ),
+            ),
           ],
         ),
       ),
@@ -205,17 +211,17 @@ class _ProductListView extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await Get.to(const AddProductView());
-          controller.getProducts();
-        },
-        backgroundColor: const Color.fromARGB(255, 248, 139, 14),
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () async {
+      //     await Get.to(const AddProductView());
+      //     controller.getProducts();
+      //   },
+      //   backgroundColor: const Color.fromARGB(255, 248, 139, 14),
+      //   child: const Icon(
+      //     Icons.add,
+      //     color: Colors.white,
+      //   ),
+      // ),
     );
   }
 
@@ -572,77 +578,103 @@ class _ProductListView extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
+                        horizontal: 10, vertical: 10),
                     backgroundColor: const Color.fromARGB(255, 145, 10, 10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
                     ),
                   ),
-                  child: const Text(
-                    'Buy Now',
-                    style: TextStyle(fontSize: 12, color: Colors.white),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Edit',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                      ),
+                      SizedBox(width: 15),
+                      Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ],
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () async {
-                    bool confirm = false;
-                    await showDialog<void>(
-                      context: context,
-                      barrierDismissible: true,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Confirm'),
-                          content: SingleChildScrollView(
-                            child: ListBody(
-                              children: const <Widget>[
-                                Text(
-                                    'Are you sure you want to delete this item?'),
-                              ],
-                            ),
-                          ),
-                          actions: <Widget>[
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.grey[600],
+                    onPressed: () async {
+                      bool confirm = false;
+                      await showDialog<void>(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Confirm'),
+                            content: SingleChildScrollView(
+                              child: ListBody(
+                                children: const <Widget>[
+                                  Text(
+                                      'Are you sure you want to delete this item?'),
+                                ],
                               ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text("No"),
                             ),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blueGrey,
+                            actions: <Widget>[
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.grey[600],
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text("No"),
                               ),
-                              onPressed: () {
-                                confirm = true;
-                                Navigator.pop(context);
-                              },
-                              child: const Text("Yes"),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                    if (confirm) {
-                      controller.deleteProduct(id);
-                    }
-                    return Future.value(false);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 10),
-                    backgroundColor: const Color.fromARGB(255, 145, 10, 10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.blueGrey,
+                                ),
+                                onPressed: () {
+                                  confirm = true;
+                                  Navigator.pop(context);
+                                },
+                                child: const Text("Yes"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                      if (confirm) {
+                        controller.deleteProduct(id);
+                      }
+                      return Future.value(false);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
+                      backgroundColor: const Color.fromARGB(255, 145, 10, 10),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
                     ),
-                  ),
-                  child: const Icon(
-                    Icons.shopping_cart,
-                    color: Colors.white,
-                    size: 20,
-                  ),
-                ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Delete',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
+                        ),
+                        SizedBox(width: 6.5),
+                        Icon(
+                          Icons.delete,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                      ],
+                    )),
               ],
             ),
           ],

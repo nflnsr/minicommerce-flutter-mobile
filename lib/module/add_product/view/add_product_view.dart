@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:minicommerce/core.dart';
 import 'package:minicommerce/shared/utils/validator.dart';
 import 'package:minicommerce/shared/widget/form/dropdown.dart';
-import 'package:minicommerce/shared/widget/form/image_picker.dart';
 import 'package:minicommerce/shared/widget/form/memofield.dart';
 import 'package:minicommerce/shared/widget/form/number_field.dart';
 import 'package:minicommerce/shared/widget/form/text_field.dart';
@@ -15,7 +14,7 @@ class AddProductView extends StatefulWidget {
     controller.view = this;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("AddProduct"),
+        title: const Text("Add Product"),
         actions: const [],
       ),
       body: SingleChildScrollView(
