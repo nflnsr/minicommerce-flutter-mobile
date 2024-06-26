@@ -10,7 +10,7 @@ class ProductService {
     return response.data;
   }
 
-  Future<Map> getById(String id) async {
+  Future<Map<String,dynamic>> getById(String id) async {
     var response = await Dio().get(
         'https://minicommerce.fly.dev/api/list-products/detail-product/$id',
         options: Options(headers: {
@@ -46,6 +46,57 @@ class ProductService {
     try {
       var response = await Dio().post(
         'https://minicommerce.fly.dev/api/products',
+        data: formData,
+        // options: Options(headers: {
+        //   "Content-Type": "multipart/form-data",
+        // }),
+      );
+      response.data["message"] = "success";
+      print("responnyaaa $response");
+      print(response.data);
+      return response.data;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        if (e.response!.statusCode == 400) {
+          return {"message": "failed"};
+        } else {
+          print('Error ${e.response!.statusCode}: ${e.response!.data}');
+          return {"message": "failed"};
+        }
+      } else {
+        print('Error sending request: ${e.message}');
+        return {"message": "failed"};
+      }
+    }
+  }
+
+  Future<Map<String,dynamic>> edit({
+    required String id,
+    required String productName,
+    required String typeProduct,
+    required String desc,
+    required String price,
+    required String location,
+    required String stock,
+    required String sold,
+    required imgProduct,
+  }) async {
+    var formData = FormData.fromMap({
+      "product_name": productName,
+      "type_product": typeProduct,
+      "desc": desc,
+      "price": price,
+      "location": location,
+      "stock": stock,
+      "sold": sold,
+      "img_product": imgProduct != null
+          ? await MultipartFile.fromFile(imgProduct.path,
+              filename: "upload.jpg")
+          : null,
+    });
+    try {
+      var response = await Dio().put(
+        'https://minicommerce.fly.dev/api/products/:$id',
         data: formData,
         // options: Options(headers: {
         //   "Content-Type": "multipart/form-data",

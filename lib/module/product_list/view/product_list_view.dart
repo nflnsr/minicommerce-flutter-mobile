@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:minicommerce/core.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:minicommerce/module/edit_product/view/edit_product_view.dart';
 
 class ProductListView extends StatefulWidget {
   const ProductListView({super.key});
@@ -466,7 +467,7 @@ class _ProductListView extends StatelessWidget {
       ),
       child: GestureDetector(
         onTap: () {
-          Get.to(const AddProductView());
+          Get.to(ProductDetailView(newid: id));
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -574,7 +575,7 @@ class _ProductListView extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    Get.to(const ProductDetailView());
+                    Get.to(EditProductView(id: id,));
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
