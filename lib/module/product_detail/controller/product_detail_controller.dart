@@ -15,7 +15,7 @@ class ProductDetailController extends State<ProductDetailView> {
   void initState() {
     super.initState();
     instance = this;
-    getProductId(productid);
+    getProductById(productid);
     WidgetsBinding.instance.addPostFrameCallback((_) => onReady());
   }
 
@@ -29,7 +29,7 @@ class ProductDetailController extends State<ProductDetailView> {
   @override
   Widget build(BuildContext context) => widget.build(context, this);
 
-  Future<void> getProductId(String id) async {
+  Future<void> getProductById(String id) async {
     isLoading = true;
 
     product = await ProductService().getById(id);

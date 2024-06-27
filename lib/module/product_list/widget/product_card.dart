@@ -144,10 +144,11 @@ Widget productCard({
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ElevatedButton(
-                onPressed: () {
-                  Get.to(EditProductView(
+                onPressed: () async {
+                  await Get.to(EditProductView(
                     id: id,
                   ));
+                  controller.getProducts();
                 },
                 style: ElevatedButton.styleFrom(
                   padding:

@@ -82,17 +82,21 @@ class ProductService {
         //   "Content-Type": "multipart/form-data",
         // }),
       );
+      print("responsenyaaa: $response");
       response.data["message"] = "success";
 
       return response.data;
     } on DioException catch (e) {
       if (e.response != null) {
         if (e.response!.statusCode == 400) {
+          print("error: ${e.response}");
           return {"message": "failed"};
         } else {
+          print("error: ${e.response}");
           return {"message": "failed"};
         }
       } else {
+          print("error: ${e.response}");
         return {"message": "failed"};
       }
     }
@@ -124,7 +128,7 @@ class ProductService {
     });
     try {
       var response = await Dio().put(
-        'https://minicommerce.fly.dev/api/products/:$id',
+        'https://minicommerce.fly.dev/api/products/$id',
         data: formData,
         // options: Options(headers: {
         //   "Content-Type": "multipart/form-data",

@@ -20,8 +20,9 @@ class ProductDetailView extends StatefulWidget {
           IconButton(
             icon: const Icon(Icons.edit),
             tooltip: 'Edit Product',
-            onPressed: () {
-              Get.to(EditProductView(id: newid));
+            onPressed: () async {
+              await Get.to(EditProductView(id: newid));
+              controller.getProductById(newid);
             },
           ),
           IconButton(

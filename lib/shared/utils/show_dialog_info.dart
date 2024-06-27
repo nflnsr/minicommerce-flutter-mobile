@@ -44,7 +44,11 @@ Future showInfoDialog(String message) async {
                             backgroundColor: Colors.blueGrey,
                           ),
                           onPressed: Get.back,
-                          child: const Text('Ok'),
+                          child: const Text('Ok', 
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ],
                     ),

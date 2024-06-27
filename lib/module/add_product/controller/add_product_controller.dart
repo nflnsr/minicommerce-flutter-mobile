@@ -66,6 +66,7 @@ class AddProductController extends State<AddProductView> {
         stock: stock!,
         sold: sold!,
         imgProduct: imgProduct);
+    print("resulttt: $result");
     hideLoading();
     setState(() {});
     if (result['message'] == "success") {

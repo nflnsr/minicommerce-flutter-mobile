@@ -54,7 +54,7 @@ Widget editForm(BuildContext context, controller, item) {
         QTextField(
           label: "Product Name",
           validator: Validator.required,
-          value: item['product_name'],
+          value: controller.productName ?? "",
           onChanged: (value) {
             controller.productName = value;
           },
@@ -62,7 +62,7 @@ Widget editForm(BuildContext context, controller, item) {
         QNumberField(
           label: "Price",
           validator: Validator.required,
-          value: item['price'].toString(),
+          value: controller.price ?? "",
           onChanged: (value) {
             controller.price = value;
           },
@@ -70,7 +70,7 @@ Widget editForm(BuildContext context, controller, item) {
         QTextField(
           label: "Location",
           validator: Validator.required,
-          value: item['location'],
+          value: controller.location ?? "",
           onChanged: (value) {
             controller.location = value;
           },
@@ -78,7 +78,7 @@ Widget editForm(BuildContext context, controller, item) {
         QNumberField(
           label: "Stock",
           validator: Validator.required,
-          value: item['stock'].toString(),
+          value: controller.stock ?? "",
           onChanged: (value) {
             controller.stock = value;
           },
@@ -86,7 +86,7 @@ Widget editForm(BuildContext context, controller, item) {
         QNumberField(
           label: "Sold",
           validator: Validator.required,
-          value: item['sold'].toString(),
+          value: controller.sold ?? "",
           onChanged: (value) {
             controller.sold = value;
           },
@@ -132,7 +132,7 @@ Widget editForm(BuildContext context, controller, item) {
               "value": "Lainnya",
             },
           ],
-          value: item['type_product'],
+          value: controller.typeProduct ?? "",
           onChanged: (value, label) {
             controller.typeProduct = value;
           },
@@ -140,7 +140,7 @@ Widget editForm(BuildContext context, controller, item) {
         QMemoField(
           label: "Description",
           validator: Validator.required,
-          value: item['desc'],
+          value: controller.desc ?? "",
           onChanged: (value) {
             controller.desc = value;
           },

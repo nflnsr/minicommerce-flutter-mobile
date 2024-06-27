@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:minicommerce/core.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:minicommerce/module/edit_product/view/edit_product_view.dart';
+import 'package:minicommerce/shared/utils/format_currency.dart';
 import 'package:minicommerce/shared/utils/show_dialog_info.dart';
 import 'package:minicommerce/shared/utils/show_loading.dart';
 
 class EditProductController extends State<EditProductView> {
   static late EditProductController instance;
   late EditProductView view;
-  late Map<String,dynamic> product = {};
+  late Map<String, dynamic> product = {};
   final String id;
 
   EditProductController({required this.id});
@@ -17,7 +18,7 @@ class EditProductController extends State<EditProductView> {
   @override
   void initState() {
     getProductId(id);
-    
+    print("idnya $id");
     super.initState();
     instance = this;
     WidgetsBinding.instance.addPostFrameCallback((_) => onReady());
@@ -48,11 +49,23 @@ class EditProductController extends State<EditProductView> {
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-    Future<void> getProductId(String id) async {
+  Future<void> getProductId(String id) async {
     isLoading = true;
     setState(() {});
-    
+
     product = await ProductService().getById(id);
+    // print("product idddd $product['id']");
+    // print(product['id']);
+    // print("sebelum ini idnya");
+    productName = product['product_name'];
+    typeProduct = product['type_product'];
+    desc = product['desc'];
+    price = formatCurrency(product['price']);
+    location = product['location'];
+    stock = product['stock'].toString();
+    sold = product['sold'].toString();
+    // imgProduct = product['img_product'];
+
     isLoading = false;
     setState(() {});
   }
@@ -62,6 +75,7 @@ class EditProductController extends State<EditProductView> {
 
     if (image != null) {
       imgProduct = File(image.path);
+      print(imgProduct);
       setState(() {});
     }
 
@@ -72,6 +86,7 @@ class EditProductController extends State<EditProductView> {
     if (!formKey.currentState!.validate()) {
       return;
     }
+    // print()
     showLoading();
     result = await ProductService().edit(
         id: id,
