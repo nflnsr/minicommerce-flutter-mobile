@@ -2,22 +2,53 @@ import 'package:dio/dio.dart';
 
 class ProductService {
   Future<List> get() async {
-    var response = await Dio().get('https://minicommerce.fly.dev/api/products',
-        options: Options(headers: {
-          "Content-Type": "application/json",
-        }));
+    try {
+      var response =
+          await Dio().get('https://minicommerce.fly.dev/api/products',
+              options: Options(headers: {
+                "Content-Type": "application/json",
+              }));
 
-    return response.data;
+      return response.data;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        if (e.response!.statusCode == 400) {
+          return [
+            {"message": "failed"}
+          ];
+        } else {
+          return [
+            {"message": "failed"}
+          ];
+        }
+      } else {
+        return [
+          {"message": "failed"}
+        ];
+      }
+    }
   }
 
-  Future<Map<String,dynamic>> getById(String id) async {
-    var response = await Dio().get(
-        'https://minicommerce.fly.dev/api/list-products/detail-product/$id',
-        options: Options(headers: {
-          "Content-Type": "application/json",
-        }));
+  Future<Map<String, dynamic>> getById(String id) async {
+    try {
+      var response = await Dio().get(
+          'https://minicommerce.fly.dev/api/list-products/detail-product/$id',
+          options: Options(headers: {
+            "Content-Type": "application/json",
+          }));
 
-    return response.data;
+      return response.data;
+    } on DioException catch (e) {
+      if (e.response != null) {
+        if (e.response!.statusCode == 400) {
+          return {"message": "failed"};
+        } else {
+          return {"message": "failed"};
+        }
+      } else {
+        return {"message": "failed"};
+      }
+    }
   }
 
   Future<Map> add({
@@ -52,25 +83,22 @@ class ProductService {
         // }),
       );
       response.data["message"] = "success";
-      print("responnyaaa $response");
-      print(response.data);
+
       return response.data;
     } on DioException catch (e) {
       if (e.response != null) {
         if (e.response!.statusCode == 400) {
           return {"message": "failed"};
         } else {
-          print('Error ${e.response!.statusCode}: ${e.response!.data}');
           return {"message": "failed"};
         }
       } else {
-        print('Error sending request: ${e.message}');
         return {"message": "failed"};
       }
     }
   }
 
-  Future<Map<String,dynamic>> edit({
+  Future<Map<String, dynamic>> edit({
     required String id,
     required String productName,
     required String typeProduct,
@@ -103,19 +131,16 @@ class ProductService {
         // }),
       );
       response.data["message"] = "success";
-      print("responnyaaa $response");
-      print(response.data);
+
       return response.data;
     } on DioException catch (e) {
       if (e.response != null) {
         if (e.response!.statusCode == 400) {
           return {"message": "failed"};
         } else {
-          print('Error ${e.response!.statusCode}: ${e.response!.data}');
           return {"message": "failed"};
         }
       } else {
-        print('Error sending request: ${e.message}');
         return {"message": "failed"};
       }
     }
@@ -136,14 +161,11 @@ class ProductService {
         if (e.response!.statusCode == 400) {
           return {"message": "failed"};
         } else {
-          print('Error ${e.response!.statusCode}: ${e.response!.data}');
           return {"message": "failed"};
         }
       } else {
-        print('Error sending request: ${e.message}');
         return {"message": "failed"};
       }
     }
   }
-  
 }
