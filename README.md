@@ -1,6 +1,17 @@
-# minicommerce
+# Minicommerce
 
-A new Flutter project.
+To demo the project, you need to:
+```bash
+flutter pub get
+
+#Run the emulator (website experience may be different)
+
+flutter run / via debug app
+```
+
+Tech Stack:
+- Dart
+- Flutter
 
 ## Getting Started
 
