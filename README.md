@@ -1,6 +1,8 @@
-# minicommerce
+# Minicommerce
 
-A new Flutter project.
+Tech Stack:
+- Dart
+- Flutter
 
 ## Getting Started
 

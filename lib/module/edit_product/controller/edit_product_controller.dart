@@ -33,14 +33,6 @@ class EditProductController extends State<EditProductView> {
   @override
   Widget build(BuildContext context) => widget.build(context, this);
 
-  Future<void> getProductId(String id) async {
-    isLoading = true;
-    
-    product = await ProductService().getById(id);
-    isLoading = false;
-    setState(() {});
-  }
-
   File? imgProduct;
   String? productName;
   String? typeProduct;
@@ -55,6 +47,15 @@ class EditProductController extends State<EditProductView> {
   var result;
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+    Future<void> getProductId(String id) async {
+    isLoading = true;
+    setState(() {});
+    
+    product = await ProductService().getById(id);
+    isLoading = false;
+    setState(() {});
+  }
 
   Future pickImage() async {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);

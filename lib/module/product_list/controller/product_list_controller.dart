@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:minicommerce/core.dart';
-import 'package:minicommerce/service/product_service/product_service.dart';
 import 'package:minicommerce/shared/utils/show_loading.dart';
-import '../view/product_list_view.dart';
 
 class ProductListController extends State<ProductListView> {
   static late ProductListController instance;
