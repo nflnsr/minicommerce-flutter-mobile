@@ -35,8 +35,9 @@ Widget productCard({
       ),
     ),
     child: GestureDetector(
-      onTap: () {
-        Get.to(ProductDetailView(newid: id));
+      onTap: () async {
+        await Get.to(ProductDetailView(newid: id));
+        controller.getProducts();
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
